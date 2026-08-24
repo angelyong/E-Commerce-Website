@@ -34,14 +34,19 @@ svg
 {
     position: relative;
     margin: auto;
-    width: 90%;
+    width: 95%;
     padding-top: 100px;
     box-sizing: border-box;
     text-align: center;
     overflow: hidden;
+	display: flex;
+	align-items: center;
+	gap: 25px;
 }
 .slide
 {
+	margin: 0;
+	padding: 0;
     display: none;
 }
 .slide.active
@@ -52,6 +57,9 @@ svg
 {
     width: 100%;
     height: auto;
+}
+.arrow {
+	cursor: pointer;
 }
 #sliderDots
 {

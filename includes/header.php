@@ -17,8 +17,8 @@ if (isLoggedIn()) {
             <div id="shopName"><a href="index.php"> <b>SHOP</b>LANE </a></div>
                 <!-- COLLCETIONS ON WEBSITE -->
                 <div id="collection">
-                    <div id="clothing"><a href="products.php#clothing"> CLOTHING </a></div>
-                    <div id="accessories"><a href="products.php#accessories"> ACCESSORIES </a></div>
+                    <div id="clothing"><a id="clothing" href="products.php#clothing"> CLOTHING </a></div>
+                    <div id="accessories"><a id="accessories" href="products.php#accessories"> ACCESSORIES </a></div>
                 </div>
                 <!-- SEARCH SECTION -->
                 <div id="search">

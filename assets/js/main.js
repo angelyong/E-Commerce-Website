@@ -7,12 +7,17 @@ document.addEventListener("DOMContentLoaded", function () {
   let current = 0;
   let autoplayDelay = 1500;
   let timer;
+  let left = document.getElementById("left");
+  let right = document.getElementById("right");
 
   slides.forEach(function (slide, index) {
     let dot = document.createElement("span");
     dot.className = "dot" + (index === 0 ? " active" : "");
     dot.addEventListener("click", function () {
-      goToSlide(index);
+		stopAutoplay();
+		startAutoplay();
+		goToSlide(index)
+	  ;
     });
     dotsContainer.appendChild(dot);
   });
@@ -30,6 +35,17 @@ document.addEventListener("DOMContentLoaded", function () {
   function nextSlide() {
     goToSlide((current + 1) % slides.length);
   }
+  
+  function previousSlide() {
+	let target = current - 1;
+	if (target < 0) {
+		target = slides.length - 1;
+	}
+	else {
+		target = target;
+	}
+	goToSlide(target);
+  }
 
   function startAutoplay() {
     timer = setInterval(nextSlide, autoplayDelay);
@@ -41,6 +57,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   slider.addEventListener("mouseenter", stopAutoplay);
   slider.addEventListener("mouseleave", startAutoplay);
+  left.addEventListener("click", previousSlide);
+  right.addEventListener("click", nextSlide);
+  
+  
 
   startAutoplay();
 });

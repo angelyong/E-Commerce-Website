@@ -25,10 +25,12 @@ $featuredProducts = $pdo->query('SELECT id, name, price, image FROM products ORD
     <!-- SLIDER -->
     <section>
         <div id="containerSlider">
+			<div class="arrow"><img id="left" src="assets/img/ui/left.png" height=30px width=30px alt="left arrow"></div>
             <div class="slide active"><img src="assets/img/ui/img1.png" alt="promo banner 1"></div>
             <div class="slide"><img src="assets/img/ui/img2.png" alt="promo banner 2"></div>
             <div class="slide"><img src="assets/img/ui/img3.png" alt="promo banner 3"></div>
             <div class="slide"><img src="assets/img/ui/img4.png" alt="promo banner 4"></div>
+			<div class="arrow"><img id="right" src="assets/img/ui/right.png" height=30px width=30px alt="right arrow"></div>
         </div>
         <div id="sliderDots"></div>
     </section>
