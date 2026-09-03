@@ -1,0 +1,134 @@
+#authContainer
+{
+    max-width: 420px;
+    margin: 150px auto 60px;
+    padding: 40px;
+    box-shadow: 1px 2px 6px 2px rgb(219, 219, 219);
+    border-radius: 10px;
+}
+#authContainer h1
+{
+    width: auto;
+    padding: 0 0 25px;
+    margin: 0;
+    text-align: center;
+    font-size: 28px;
+}
+.formGroup
+{
+    margin-bottom: 18px;
+}
+.formGroup label
+{
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgb(29, 29, 29);
+}
+.formGroup input
+{
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    font-family: 'Lato', sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.formGroup input:focus
+{
+    outline: none;
+    border-color: rgb(29, 29, 29);
+}
+#authSubmit
+{
+    width: 100%;
+    padding: 12px;
+    background-color: rgb(29, 29, 29);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+#authSubmit:hover
+{
+    background-color: lightslategray;
+}
+#authSwitch
+{
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+#authSwitch a
+{
+    color: rgb(29, 29, 29);
+    font-weight: bold;
+}
+#authErrors
+{
+    background-color: #fdecea;
+    color: #611a15;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    font-size: 14px;
+}
+#authErrors ul
+{
+    margin: 0;
+    padding-left: 18px;
+}
+#profileContainer
+{
+    max-width: 500px;
+    margin: 150px auto 60px;
+    padding: 40px;
+    box-shadow: 1px 2px 6px 2px rgb(219, 219, 219);
+    border-radius: 10px;
+}
+#profileContainer h1
+{
+    width: auto;
+    padding: 0 0 25px;
+    margin: 0;
+    font-size: 28px;
+}
+#profileContainer p
+{
+    font-size: 16px;
+    margin: 10px 0;
+}
+#logoutBtn
+{
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 30px;
+    background-color: rgb(29, 29, 29);
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 4px;
+}
+#logoutBtn:hover
+{
+    background-color: lightslategray;
+}
+
+/* ----------------------------- MEDIA QUERY --------------------------- */
+
+@media(max-width: 480px)
+{
+    #authContainer, #profileContainer
+    {
+        margin: 110px 15px 40px;
+        padding: 25px;
+    }
+}
