@@ -2,7 +2,27 @@
 require_once __DIR__ . '/includes/auth.php';
 require_once __DIR__ . '/includes/db.php';
 
-$stmt = $pdo->query('SELECT id, name, price, image, category FROM products ORDER BY created_at DESC');
+$search = trim($_GET['q'] ?? '');
+$category = $_GET['category'] ?? '';
+$allowedCategories = ['clothing', 'accessories'];
+
+$sql = 'SELECT id, name, description, price, image, category, stock FROM products WHERE 1=1';
+$params = [];
+
+if ($search !== '') {
+    $sql .= ' AND (name LIKE ? OR description LIKE ? OR category LIKE ?)';
+    $term = '%' . $search . '%';
+    array_push($params, $term, $term, $term);
+}
+
+if (in_array($category, $allowedCategories, true)) {
+    $sql .= ' AND category = ?';
+    $params[] = $category;
+}
+
+$sql .= ' ORDER BY created_at DESC';
+$stmt = $pdo->prepare($sql);
+$stmt->execute($params);
 $products = $stmt->fetchAll();
 
 $clothing = array_filter($products, function ($product) {
@@ -31,6 +51,13 @@ $accessories = array_filter($products, function ($product) {
     <?php include 'includes/header.php'; ?>
 
     <div id="mainContainer">
+
+        <?php if ($search !== ''): ?>
+            <div class="searchSummary">
+                <p><?php echo count($products); ?> result(s) for <strong>“<?php echo htmlspecialchars($search); ?>”</strong></p>
+                <a href="products.php"> Clear search </a>
+            </div>
+        <?php endif; ?>
 
         <h1 id="clothing"> clothing for men and women </h1>
         <div id="containerClothing">

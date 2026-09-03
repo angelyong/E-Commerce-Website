@@ -52,6 +52,36 @@ body
     align-items: center;
     margin-bottom: 25px;
 }
+.adminSearch
+{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.adminSearch input, .adminSearch select
+{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.adminSearch input
+{
+    flex: 1;
+}
+.adminSearch button
+{
+    padding: 10px 16px;
+    border: 0;
+    border-radius: 4px;
+    background: rgb(3, 122, 122);
+    color: white;
+    cursor: pointer;
+}
+.adminSearch a
+{
+    color: rgb(29, 29, 29);
+}
 #adminHeaderRow h1
 {
     margin: 0;
@@ -179,6 +209,11 @@ body
 
 @media(max-width: 700px)
 {
+    .adminSearch
+    {
+        align-items: stretch;
+        flex-direction: column;
+    }
     #adminBar
     {
         flex-direction: column;

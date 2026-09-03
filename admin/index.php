@@ -4,7 +4,27 @@ require_once __DIR__ . '/../includes/auth.php';
 
 requireAdmin('../login.php');
 
-$products = $pdo->query('SELECT id, name, price, category, stock FROM products ORDER BY id DESC')->fetchAll();
+$search = trim($_GET['q'] ?? '');
+$category = $_GET['category'] ?? '';
+$allowedCategories = ['clothing', 'accessories'];
+
+$sql = 'SELECT id, name, price, category, stock FROM products WHERE 1=1';
+$params = [];
+
+if ($search !== '') {
+    $sql .= ' AND (name LIKE ? OR category LIKE ?)';
+    $term = '%' . $search . '%';
+    array_push($params, $term, $term);
+}
+if (in_array($category, $allowedCategories, true)) {
+    $sql .= ' AND category = ?';
+    $params[] = $category;
+}
+$sql .= ' ORDER BY id DESC';
+
+$stmt = $pdo->prepare($sql);
+$stmt->execute($params);
+$products = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,6 +49,17 @@ $products = $pdo->query('SELECT id, name, price, category, stock FROM products O
             <h1> Products </h1>
             <a href="product-add.php" id="adminAddBtn"> + Add Product </a>
         </div>
+
+        <form class="adminSearch" method="get" action="index.php">
+            <input type="search" name="q" value="<?php echo htmlspecialchars($search); ?>" placeholder="Search product name">
+            <select name="category">
+                <option value="">All categories</option>
+                <option value="clothing" <?php echo $category === 'clothing' ? 'selected' : ''; ?>>Clothing</option>
+                <option value="accessories" <?php echo $category === 'accessories' ? 'selected' : ''; ?>>Accessories</option>
+            </select>
+            <button type="submit">Search</button>
+            <a href="index.php">Clear</a>
+        </form>
 
         <div id="adminTableWrap">
         <table id="adminTable">

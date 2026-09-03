@@ -21,10 +21,10 @@ if (isLoggedIn()) {
                     <div id="accessories"><a href="products.php#accessories"> ACCESSORIES </a></div>
                 </div>
                 <!-- SEARCH SECTION -->
-                <div id="search">
+                <form id="search" method="get" action="products.php" role="search">
                     <svg class="search" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    <input type="text" id="input" name="searchBox" placeholder="Search for Clothing and Accessories">
-                </div>
+                    <input type="search" id="input" name="q" value="<?php echo htmlspecialchars($_GET['q'] ?? ''); ?>" placeholder="Search for Clothing and Accessories" aria-label="Search products">
+                </form>
                 <!-- USER SECTION (CART AND USER ICON) -->
                 <div id="user">
                     <?php if (isLoggedIn()): ?>
