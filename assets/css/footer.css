@@ -24,7 +24,7 @@ body
 }
 #webFooter
 {
-    padding-top: 30px;
+    padding: 30px 0;
     font-size: 12px;
 }
 #webFooter a

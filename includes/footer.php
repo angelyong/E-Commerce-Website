@@ -12,7 +12,7 @@
             <div id="webFooter">
                 <h3> helpful link </h3>
                 <p><a href="index.php"> home </a></p>
-                <p> about </p>
+                <p><a href="about.php"> about </a></p>
                 <p><a href="contact.php"> contact </a></p>
             </div>
             <div id="webFooter">

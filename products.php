@@ -23,7 +23,7 @@ $accessories = array_filter($products, function ($product) {
     <!-- favicon -->
     <link rel="icon" href="https://yt3.ggpht.com/a/AGF-l78km1YyNXmF0r3-0CycCA0HLA_i6zYn_8NZEg=s900-c-k-c0xffffffff-no-rj-mo" type="image/gif" sizes="16x16">
 
-    <link rel="stylesheet" href="<?php echo asset('assets/css/main.css'); ?>">
+    <link rel="stylesheet" href= "assets/css/main.css">
     <link rel="stylesheet" href="<?php echo asset('assets/css/products.css'); ?>">
 
 </head>
