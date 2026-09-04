@@ -6,7 +6,7 @@ $search = trim($_GET['q'] ?? '');
 $category = $_GET['category'] ?? '';
 $allowedCategories = ['clothing', 'accessories'];
 
-$sql = 'SELECT id, name, description, price, image, category, stock FROM products WHERE 1=1';
+$sql = 'SELECT id, name, description, price, image, category, stock, created_at FROM products WHERE 1=1';
 $params = [];
 
 if ($search !== '') {
@@ -38,10 +38,7 @@ $accessories = array_filter($products, function ($product) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title> PRODUCTS | E-COMMERCE WEBSITE BY EDYODA </title>
-    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
-    <!-- favicon -->
-    <link rel="icon" href="https://yt3.ggpht.com/a/AGF-l78km1YyNXmF0r3-0CycCA0HLA_i6zYn_8NZEg=s900-c-k-c0xffffffff-no-rj-mo" type="image/gif" sizes="16x16">
+    <title>Products | SHOPLANE</title>
 
     <link rel="stylesheet" href="<?php echo asset('assets/css/main.css'); ?>">
     <link rel="stylesheet" href="<?php echo asset('assets/css/products.css'); ?>">
@@ -50,52 +47,41 @@ $accessories = array_filter($products, function ($product) {
 <body>
     <?php include 'includes/header.php'; ?>
 
-    <div id="mainContainer">
+    <main class="catalog-page">
 
-        <?php if ($search !== ''): ?>
-            <div class="searchSummary">
-                <p><?php echo count($products); ?> result(s) for <strong>“<?php echo htmlspecialchars($search); ?>”</strong></p>
-                <a href="products.php"> Clear search </a>
+        <section class="catalog-tools" aria-labelledby="catalogToolsHeading">
+            <div>
+                <span>Find your next favourite</span>
+                <h1 id="catalogToolsHeading">Shop all products</h1>
+                <p id="catalogResultCount" aria-live="polite"><?php echo count($products); ?> product(s) found</p>
             </div>
-        <?php endif; ?>
+            <form id="catalogFilterForm" method="get" action="products.php">
+                <label><span>Search</span><input id="catalogSearch" type="search" name="q" value="<?php echo htmlspecialchars($search); ?>" placeholder="Product name or description"></label>
+                <label><span>Category</span><select id="catalogCategory" name="category"><option value="">All categories</option><option value="clothing" <?php echo $category === 'clothing' ? 'selected' : ''; ?>>Clothing</option><option value="accessories" <?php echo $category === 'accessories' ? 'selected' : ''; ?>>Accessories</option></select></label>
+                <label><span>Sort by</span><select id="catalogSort"><option value="newest">Newest</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="name">Name: A–Z</option></select></label>
+                <button type="submit">Apply</button>
+                <button type="button" class="filter-clear" id="clearCatalogFilters">Clear</button>
+            </form>
+        </section>
 
-        <h1 id="clothing"> clothing for men and women </h1>
-        <div id="containerClothing">
-            <?php foreach ($clothing as $product): ?>
-                <div id="box">
-                    <a href="product-details.php?id=<?php echo (int) $product['id']; ?>">
-                        <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
-                        <div id="details">
-                            <h3><?php echo htmlspecialchars($product['name']); ?></h3>
-                            <h2>Rs <?php echo htmlspecialchars(number_format($product['price'], 2)); ?></h2>
-                        </div>
-                    </a>
-                </div>
-            <?php endforeach; ?>
-            <?php if (!$clothing): ?>
-                <p> No clothing items yet. </p>
-            <?php endif; ?>
-        </div>
+        <section class="product-section catalog-group" id="clothing" data-catalog-group="clothing">
+            <div class="section-heading"><div><span>New arrivals every week</span><h2>Clothing for men &amp; women</h2></div></div>
+            <div class="product-grid">
+            <?php foreach ($clothing as $product): include 'includes/product-card.php'; endforeach; ?>
+                <p class="empty-state catalog-empty" <?php echo $clothing ? 'hidden' : ''; ?>>No clothing items match your filters.</p>
+            </div>
+        </section>
 
-        <h1 id="accessories"> accessories for men and women </h1>
-        <div id="containerAccessories">
-            <?php foreach ($accessories as $product): ?>
-                <div id="box">
-                    <a href="product-details.php?id=<?php echo (int) $product['id']; ?>">
-                        <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
-                        <div id="details">
-                            <h3><?php echo htmlspecialchars($product['name']); ?></h3>
-                            <h2>Rs <?php echo htmlspecialchars(number_format($product['price'], 2)); ?></h2>
-                        </div>
-                    </a>
-                </div>
-            <?php endforeach; ?>
-            <?php if (!$accessories): ?>
-                <p> No accessories yet. </p>
-            <?php endif; ?>
-        </div>
-    </div>
+        <section class="product-section catalog-group" id="accessories" data-catalog-group="accessories">
+            <div class="section-heading"><div><span>Finish the look</span><h2>Accessories for everyone</h2></div></div>
+            <div class="product-grid">
+            <?php foreach ($accessories as $product): include 'includes/product-card.php'; endforeach; ?>
+                <p class="empty-state catalog-empty" <?php echo $accessories ? 'hidden' : ''; ?>>No accessories match your filters.</p>
+            </div>
+        </section>
+    </main>
 
     <?php include 'includes/footer.php'; ?>
+    <script src="<?php echo asset('assets/js/catalog.js'); ?>"></script>
 </body>
 </html>

@@ -9,9 +9,11 @@ A full-stack e-commerce site built with plain HTML, CSS, JavaScript, PHP and MyS
 - User registration, login, logout and session-protected account page
 - Cart and wishlist (add / update quantity / remove), tied to the logged-in user
 - Checkout that creates a real order (`orders` + `order_items`) and clears the cart
+- Transaction-safe checkout with stock validation, stock deduction and order history
 - Contact form that saves messages to the database
 - Admin panel for full product CRUD (Create, Read, Update, Delete)
-- Responsive layout (CSS media queries only) and client-side form validation
+- Responsive layout (CSS media queries only), live catalog filtering/sorting and client-side form validation
+- CSRF protection, prepared statements, password hashing and role-based access control
 
 ## Requirements
 
@@ -59,3 +61,9 @@ ecommerce-web/
 - Passwords are hashed with `password_hash()` / verified with `password_verify()`.
 - All dynamic output is escaped with `htmlspecialchars()`.
 - Cart, wishlist, order and admin actions are scoped to the logged-in user's session and checked server-side.
+- Every state-changing form includes a per-session CSRF token.
+- InnoDB foreign keys preserve relational integrity, while checkout uses a database transaction and row locking.
+
+## Assessment evidence
+
+See `ASSESSMENT_GUIDE.md` for a criterion-by-criterion feature map and a recommended video demonstration sequence.

@@ -23,12 +23,9 @@ if (!$product) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title> <?php echo htmlspecialchars($product['name']); ?> | E-COMMERCE WEBSITE BY EDYODA </title>
-    <!-- favicon -->
-    <link rel="icon" href="https://yt3.ggpht.com/a/AGF-l78km1YyNXmF0r3-0CycCA0HLA_i6zYn_8NZEg=s900-c-k-c0xffffffff-no-rj-mo" type="image/gif" sizes="16x16">
+    <title><?php echo htmlspecialchars($product['name']); ?> | SHOPLANE</title>
     <link rel="stylesheet" href="<?php echo asset('assets/css/main.css'); ?>">
     <link rel="stylesheet" href="<?php echo asset('assets/css/product-details.css'); ?>">
-    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
 
 </head>
 
@@ -36,7 +33,7 @@ if (!$product) {
 <!-- HEADER -->
 <?php include 'includes/header.php'; ?>
 
-    <div id="containerProduct">
+    <main id="containerProduct">
         <div id="containerD">
             <div id="imageSection">
                 <img id="imgDetails" src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
@@ -59,22 +56,28 @@ if (!$product) {
                 </div>
 
                 <div id="button">
-                    <?php if ($product['stock'] > 0): ?>
+                    <?php if (!isLoggedIn()): ?>
+                        <a class="detail-login" href="login.php?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">Log in to add items</a>
+                    <?php elseif ($product['stock'] > 0): ?>
                         <form class="inlineForm" method="post" action="actions/add-to-cart.php">
+                            <?php echo csrfField(); ?>
                             <input type="hidden" name="product_id" value="<?php echo (int) $product['id']; ?>">
                             <button type="submit"> Add to Cart </button>
                         </form>
                     <?php else: ?>
                         <button type="button" disabled> Out of Stock </button>
                     <?php endif; ?>
-                    <form class="inlineForm" method="post" action="actions/add-to-wishlist.php">
-                        <input type="hidden" name="product_id" value="<?php echo (int) $product['id']; ?>">
-                        <button type="submit"> Add to Wishlist </button>
-                    </form>
+                    <?php if (isLoggedIn()): ?>
+                        <form class="inlineForm" method="post" action="actions/add-to-wishlist.php">
+                            <?php echo csrfField(); ?>
+                            <input type="hidden" name="product_id" value="<?php echo (int) $product['id']; ?>">
+                            <button type="submit"> Add to Wishlist </button>
+                        </form>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
 <!-- FOOTER -->
 <?php include 'includes/footer.php'; ?>

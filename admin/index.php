@@ -44,7 +44,7 @@ $products = $stmt->fetchAll();
         </div>
     </div>
 
-    <div id="adminContainer">
+    <main id="adminContainer">
         <div id="adminHeaderRow">
             <h1> Products </h1>
             <a href="product-add.php" id="adminAddBtn"> + Add Product </a>
@@ -84,6 +84,7 @@ $products = $stmt->fetchAll();
                         <td>
                             <a href="product-edit.php?id=<?php echo (int) $product['id']; ?>"> Edit </a>
                             <form class="inlineForm" method="post" action="product-delete.php" onsubmit="return confirm('Delete this product?');">
+                                <?php echo csrfField(); ?>
                                 <input type="hidden" name="id" value="<?php echo (int) $product['id']; ?>">
                                 <button type="submit" class="adminDeleteBtn"> Delete </button>
                             </form>
@@ -96,6 +97,6 @@ $products = $stmt->fetchAll();
             </tbody>
         </table>
         </div>
-    </div>
+    </main>
 </body>
 </html>

@@ -5,6 +5,7 @@ require_once __DIR__ . '/../includes/auth.php';
 requireLogin('../login.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    verifyCsrfToken();
     $productId = filter_input(INPUT_POST, 'product_id', FILTER_VALIDATE_INT);
 
     if ($productId) {

@@ -19,7 +19,7 @@ if (!$order) {
     exit;
 }
 
-$stmt = $pdo->prepare('SELECT oi.quantity, oi.price, p.name FROM order_items oi JOIN products p ON p.id = oi.product_id WHERE oi.order_id = ?');
+$stmt = $pdo->prepare('SELECT oi.quantity, oi.price, COALESCE(p.name, oi.product_name) AS name FROM order_items oi LEFT JOIN products p ON p.id = oi.product_id WHERE oi.order_id = ?');
 $stmt->execute([$orderId]);
 $orderItems = $stmt->fetchAll();
 ?>
@@ -29,10 +29,7 @@ $orderItems = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title> ORDER PLACED | E-COMMERCE WEBSITE BY EDYODA </title>
-    <!-- favicon -->
-    <link rel="icon" href="https://yt3.ggpht.com/a/AGF-l78km1YyNXmF0r3-0CycCA0HLA_i6zYn_8NZEg=s900-c-k-c0xffffffff-no-rj-mo" type="image/gif" sizes="16x16">
-    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+    <title>Order confirmed | SHOPLANE</title>
 
     <link rel="stylesheet" href="<?php echo asset('assets/css/main.css'); ?>">
     <link rel="stylesheet" href="<?php echo asset('assets/css/order-confirmation.css'); ?>">
@@ -42,7 +39,7 @@ $orderItems = $stmt->fetchAll();
     <?php include 'includes/header.php'; ?>
 
     <!-- ORDER PLACED -->
-    <div id="orderContainer">
+    <main id="orderContainer">
         <div id="check"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M8 12.5l2.5 2.5L16 9.5"></path></svg></div>
 
         <div id="aboutCheck">
@@ -67,7 +64,7 @@ $orderItems = $stmt->fetchAll();
                 <p id="orderTotal"> Total: Rs <?php echo htmlspecialchars(number_format($order['total'], 2)); ?> </p>
             </div>
         </div>
-    </div>
+    </main>
         <!-- FOOTER -->
         <?php include 'includes/footer.php'; ?>
 </body>

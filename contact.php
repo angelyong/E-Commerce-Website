@@ -12,9 +12,7 @@ unset($_SESSION['contact_errors'], $_SESSION['contact_old'], $_SESSION['contact_
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title> Contact Us | E-COMMERCE WEBSITE </title>
-    <link rel="icon" href="https://yt3.ggpht.com/a/AGF-l78km1YyNXmF0r3-0CycCA0HLA_i6zYn_8NZEg=s900-c-k-c0xffffffff-no-rj-mo" type="image/gif" sizes="16x16">
-    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+    <title>Contact us | SHOPLANE</title>
     <link rel="stylesheet" href="<?php echo asset('assets/css/main.css'); ?>">
     <link rel="stylesheet" href="<?php echo asset('assets/css/auth.css'); ?>">
     <link rel="stylesheet" href="<?php echo asset('assets/css/contact.css'); ?>">
@@ -22,7 +20,7 @@ unset($_SESSION['contact_errors'], $_SESSION['contact_old'], $_SESSION['contact_
 <body>
     <?php include 'includes/header.php'; ?>
 
-    <div id="contactContainer">
+    <main id="contactContainer">
         <h1> Contact Us </h1>
 
         <div id="contactGrid">
@@ -58,28 +56,29 @@ unset($_SESSION['contact_errors'], $_SESSION['contact_old'], $_SESSION['contact_
                     </div>
                 <?php endif; ?>
 
-                <form method="post" action="actions/submit-contact.php" id="contactForm">
+                <form method="post" action="actions/submit-contact.php" id="contactForm" novalidate>
+                    <?php echo csrfField(); ?>
                     <div class="formGroup">
                         <label for="name"> Name </label>
-                        <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($old['name']); ?>" required>
+                        <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($old['name']); ?>" maxlength="100" autocomplete="name" required>
                     </div>
                     <div class="formGroup">
                         <label for="email"> Email </label>
-                        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($old['email']); ?>" required>
+                        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($old['email']); ?>" maxlength="150" autocomplete="email" required>
                     </div>
                     <div class="formGroup">
                         <label for="subject"> Subject </label>
-                        <input type="text" id="subject" name="subject" value="<?php echo htmlspecialchars($old['subject']); ?>">
+                        <input type="text" id="subject" name="subject" value="<?php echo htmlspecialchars($old['subject']); ?>" maxlength="200">
                     </div>
                     <div class="formGroup">
                         <label for="message"> Message </label>
-                        <textarea id="message" name="message" required><?php echo htmlspecialchars($old['message']); ?></textarea>
+                        <textarea id="message" name="message" maxlength="5000" required><?php echo htmlspecialchars($old['message']); ?></textarea>
                     </div>
                     <button type="submit" id="authSubmit"> Send Message </button>
                 </form>
             </div>
         </div>
-    </div>
+    </main>
 
     <?php include 'includes/footer.php'; ?>
     <script src="<?php echo asset('assets/js/validation.js'); ?>"></script>

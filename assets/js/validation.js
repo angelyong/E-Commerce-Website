@@ -6,10 +6,12 @@ document.addEventListener("DOMContentLoaded", function () {
     error.textContent = message;
     input.insertAdjacentElement("afterend", error);
     input.classList.add("invalidField");
+    input.setAttribute("aria-invalid", "true");
   }
 
   function clearError(input) {
     input.classList.remove("invalidField");
+    input.removeAttribute("aria-invalid");
     let next = input.nextElementSibling;
     if (next && next.classList.contains("fieldError")) {
       next.remove();
@@ -157,7 +159,63 @@ document.addEventListener("DOMContentLoaded", function () {
       let isValid = validators[formId](form);
       if (!isValid) {
         event.preventDefault();
+        let firstInvalid = form.querySelector(".invalidField");
+        if (firstInvalid) firstInvalid.focus();
       }
     });
+
+    form.querySelectorAll("input, textarea, select").forEach(function (field) {
+      field.addEventListener("input", function () {
+        if (field.classList.contains("invalidField") && field.checkValidity()) {
+          clearError(field);
+        }
+      });
+    });
   });
+
+  document.querySelectorAll('input[type="password"]').forEach(function (passwordInput) {
+    let toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "password-toggle";
+    toggle.textContent = "Show password";
+    toggle.setAttribute("aria-label", "Show password");
+    passwordInput.insertAdjacentElement("afterend", toggle);
+    toggle.addEventListener("click", function () {
+      let showing = passwordInput.type === "text";
+      passwordInput.type = showing ? "password" : "text";
+      toggle.textContent = showing ? "Show password" : "Hide password";
+      toggle.setAttribute("aria-label", toggle.textContent);
+    });
+  });
+
+  let registerPassword = document.querySelector("#registerForm #password");
+  if (registerPassword) {
+    let strength = document.createElement("div");
+    strength.className = "password-strength";
+    strength.setAttribute("aria-live", "polite");
+    registerPassword.parentElement.appendChild(strength);
+    registerPassword.addEventListener("input", function () {
+      let score = 0;
+      if (registerPassword.value.length >= 8) score += 1;
+      if (/[A-Z]/.test(registerPassword.value)) score += 1;
+      if (/[0-9]/.test(registerPassword.value)) score += 1;
+      if (/[^A-Za-z0-9]/.test(registerPassword.value)) score += 1;
+      let labels = ["Use at least 8 characters", "Fair", "Good", "Strong", "Very strong"];
+      strength.textContent = labels[score];
+      strength.dataset.score = score;
+    });
+  }
+
+  let messageField = document.querySelector("#contactForm #message");
+  if (messageField) {
+    let counter = document.createElement("div");
+    counter.className = "character-count";
+    counter.setAttribute("aria-live", "polite");
+    messageField.insertAdjacentElement("afterend", counter);
+    function updateCounter() {
+      counter.textContent = messageField.value.length + " characters";
+    }
+    messageField.addEventListener("input", updateCounter);
+    updateCounter();
+  }
 });

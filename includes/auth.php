@@ -2,6 +2,13 @@
 require_once __DIR__ . '/functions.php';
 
 if (session_status() === PHP_SESSION_NONE) {
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path' => '/',
+        'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ]);
     session_start();
 }
 
@@ -58,4 +65,38 @@ function requireAdmin($redirectTo = 'login.php')
         http_response_code(403);
         exit('Forbidden: admin access only.');
     }
+}
+
+function csrfToken()
+{
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+function csrfField()
+{
+    return '<input type="hidden" name="csrf_token" value="' . htmlspecialchars(csrfToken(), ENT_QUOTES, 'UTF-8') . '">';
+}
+
+function verifyCsrfToken()
+{
+    $submittedToken = $_POST['csrf_token'] ?? '';
+    if (!is_string($submittedToken) || !hash_equals(csrfToken(), $submittedToken)) {
+        http_response_code(403);
+        exit('Your session token is invalid or expired. Please return to the previous page and try again.');
+    }
+}
+
+function setFlash($type, $message)
+{
+    $_SESSION['flash_messages'][$type][] = $message;
+}
+
+function pullFlashMessages()
+{
+    $messages = $_SESSION['flash_messages'] ?? [];
+    unset($_SESSION['flash_messages']);
+    return $messages;
 }

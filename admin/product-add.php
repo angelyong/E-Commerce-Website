@@ -13,6 +13,7 @@ $category = 'clothing';
 $stock = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    verifyCsrfToken();
     $name = trim($_POST['name'] ?? '');
     $description = trim($_POST['description'] ?? '');
     $price = trim($_POST['price'] ?? '');
@@ -22,18 +23,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($name === '') {
         $errors[] = 'Name is required.';
+    } elseif (strlen($name) > 150) {
+        $errors[] = 'Name must be 150 characters or fewer.';
     }
-    if (!is_numeric($price) || $price < 0) {
+    if (!is_numeric($price) || $price < 0 || $price > 99999999.99) {
         $errors[] = 'Price must be a positive number.';
     }
     if (!in_array($category, ['clothing', 'accessories'], true)) {
         $errors[] = 'Category must be clothing or accessories.';
     }
-    if ($stock === '' || !ctype_digit($stock)) {
+    if ($stock === '' || !ctype_digit($stock) || (int) $stock > 2147483647) {
         $errors[] = 'Stock must be a whole number.';
     }
     if ($image === '') {
-        $image = 'assets/img/products/placeholder.png';
+        $image = 'assets/img/products/placeholder.svg';
+    } elseif (strlen($image) > 255) {
+        $errors[] = 'Image path must be 255 characters or fewer.';
     }
 
     if (!$errors) {
@@ -63,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <div id="adminContainer">
+    <main id="adminContainer">
         <h1> Add Product </h1>
 
         <?php if ($errors): ?>
@@ -76,10 +81,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         <?php endif; ?>
 
-        <form class="adminForm" method="post" action="product-add.php" id="productForm">
+        <form class="adminForm" method="post" action="product-add.php" id="productForm" novalidate>
+            <?php echo csrfField(); ?>
             <div class="formGroup">
                 <label for="name"> Name </label>
-                <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>" required>
+                <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>" maxlength="150" required>
             </div>
             <div class="formGroup">
                 <label for="description"> Description </label>
@@ -87,11 +93,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="formGroup">
                 <label for="price"> Price </label>
-                <input type="text" id="price" name="price" value="<?php echo htmlspecialchars($price); ?>" required>
+                <input type="number" id="price" name="price" value="<?php echo htmlspecialchars($price); ?>" min="0" max="99999999.99" step="0.01" required>
             </div>
             <div class="formGroup">
                 <label for="image"> Image Path </label>
-                <input type="text" id="image" name="image" value="<?php echo htmlspecialchars($image); ?>" placeholder="assets/img/products/placeholder.png">
+                <input type="text" id="image" name="image" value="<?php echo htmlspecialchars($image); ?>" maxlength="255" placeholder="assets/img/products/placeholder.svg">
             </div>
             <div class="formGroup">
                 <label for="category"> Category </label>
@@ -102,11 +108,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="formGroup">
                 <label for="stock"> Stock </label>
-                <input type="text" id="stock" name="stock" value="<?php echo htmlspecialchars($stock); ?>" required>
+                <input type="number" id="stock" name="stock" value="<?php echo htmlspecialchars($stock); ?>" min="0" max="2147483647" step="1" required>
             </div>
             <button type="submit" id="adminSubmit"> Add Product </button>
         </form>
-    </div>
+    </main>
     <script src="../<?php echo asset('assets/js/validation.js'); ?>"></script>
 </body>
 </html>

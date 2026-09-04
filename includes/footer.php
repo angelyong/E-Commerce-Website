@@ -1,36 +1,12 @@
-<footer>
-    <section>
-        <div id="containerFooter">
-
-            <div id="webFooter">
-                <h3><a href="products.php"> online store </a></h3>
-                <p><a href="products.php#clothing"> men clothing </a></p>
-                <p><a href="products.php#clothing"> women clothing </a></p>
-                <p><a href="products.php#accessories"> men accessories </a></p>
-                <p><a href="products.php#accessories"> women accessories </a></p>
-            </div>
-            <div id="webFooter">
-                <h3> helpful link </h3>
-                <p><a href="index.php"> home </a></p>
-                <p> about </p>
-                <p><a href="contact.php"> contact </a></p>
-            </div>
-            <div id="webFooter">
-                <h3> partners </h3>
-                <p> zara </p>
-                <p> pantaloons </p>
-                <p> levis </p>
-                <p> ucb </p>
-                <p> + many more </p>
-            </div>
-            <div id="webFooter">
-                <h3> address </h3>
-                <p> building 101 </p>
-                <p> central avenue </p>
-                <p> la - 902722 </p>
-                <p> united states </p>
-            </div>
+<footer class="site-footer">
+    <div class="footer-grid">
+        <div class="footer-about">
+            <a class="brand" href="index.php">SHOP<span>LANE</span></a>
+            <p>Clothing and accessories for men and women. New arrivals every week, delivered to your door.</p>
         </div>
-    </section>
-
+        <div class="footer-column"><h3>Shop</h3><a href="products.php?category=clothing#clothing">Clothing</a><a href="products.php?category=accessories#accessories">Accessories</a><a href="products.php">New arrivals</a><a href="products.php">All products</a></div>
+        <div class="footer-column"><h3>Help</h3><a href="help.php#shipping">Shipping</a><a href="help.php#returns">Returns</a><a href="contact.php">Contact</a><?php if (isLoggedIn()): ?><a href="profile.php">My account</a><?php else: ?><a href="login.php">Log in</a><?php endif; ?></div>
+        <div class="footer-column"><h3>Company</h3><a href="about.php#story">About us</a><a href="about.php#stores">Stores</a><a href="about.php#partnerships">Partnerships</a><a href="about.php#sustainability">Sustainability</a></div>
+    </div>
+    <div class="footer-bottom"><span>&copy; <?php echo date('Y'); ?> SHOPLANE. All rights reserved.</span><div><a href="help.php#privacy">Privacy</a><a href="help.php#terms">Terms</a><a href="help.php#cookies">Cookies</a></div></div>
 </footer>

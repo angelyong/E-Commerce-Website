@@ -1,46 +1,54 @@
 document.addEventListener("DOMContentLoaded", function () {
-  let slider = document.getElementById("containerSlider");
+  const slider = document.getElementById("containerSlider");
   if (!slider) return;
 
-  let slides = slider.querySelectorAll(".slide");
-  let dotsContainer = document.getElementById("sliderDots");
+  const slides = Array.from(slider.querySelectorAll(".hero-slide"));
+  const dotsContainer = document.getElementById("sliderDots");
+  const previous = slider.querySelector(".previous");
+  const next = slider.querySelector(".next");
   let current = 0;
-  let autoplayDelay = 1500;
   let timer;
 
-  slides.forEach(function (slide, index) {
-    let dot = document.createElement("span");
+  slides.forEach(function (_, index) {
+    const dot = document.createElement("button");
+    dot.type = "button";
     dot.className = "dot" + (index === 0 ? " active" : "");
-    dot.addEventListener("click", function () {
-      goToSlide(index);
-    });
+    dot.setAttribute("aria-label", "Go to slide " + (index + 1));
+    dot.addEventListener("click", function () { show(index); restart(); });
     dotsContainer.appendChild(dot);
   });
 
-  let dots = dotsContainer.querySelectorAll(".dot");
+  const dots = Array.from(dotsContainer.querySelectorAll(".dot"));
 
-  function goToSlide(index) {
+  function show(index) {
     slides[current].classList.remove("active");
     dots[current].classList.remove("active");
-    current = index;
+    current = (index + slides.length) % slides.length;
     slides[current].classList.add("active");
     dots[current].classList.add("active");
   }
+  function start() { timer = window.setInterval(function () { show(current + 1); }, 6000); }
+  function stop() { window.clearInterval(timer); }
+  function restart() { stop(); start(); }
 
-  function nextSlide() {
-    goToSlide((current + 1) % slides.length);
-  }
-
-  function startAutoplay() {
-    timer = setInterval(nextSlide, autoplayDelay);
-  }
-
-  function stopAutoplay() {
-    clearInterval(timer);
-  }
-
-  slider.addEventListener("mouseenter", stopAutoplay);
-  slider.addEventListener("mouseleave", startAutoplay);
-
-  startAutoplay();
+  previous.addEventListener("click", function () { show(current - 1); restart(); });
+  next.addEventListener("click", function () { show(current + 1); restart(); });
+  slider.addEventListener("mouseenter", stop);
+  slider.addEventListener("mouseleave", start);
+  slider.addEventListener("focusin", stop);
+  slider.addEventListener("focusout", start);
+  slider.addEventListener("keydown", function (event) {
+    if (event.key === "ArrowLeft") {
+      show(current - 1);
+      restart();
+    }
+    if (event.key === "ArrowRight") {
+      show(current + 1);
+      restart();
+    }
+  });
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) stop(); else restart();
+  });
+  start();
 });
