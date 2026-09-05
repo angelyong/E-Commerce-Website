@@ -8,15 +8,18 @@
 .password-toggle { margin-top: 7px; padding: 0; border: 0; background: transparent; color: var(--teal); font-size: 12px; font-weight: 700; cursor: pointer; }
 .password-strength, .character-count { margin-top: 7px; color: var(--muted); font-size: 11px; }
 .password-strength[data-score="3"], .password-strength[data-score="4"] { color: var(--teal); font-weight: 700; }
-#authSubmit, #logoutBtn { width: 100%; display: inline-flex; justify-content: center; padding: 13px 20px; border: 0; border-radius: 9px; background: var(--navy); color: #fff; font: 700 12px "Archivo", sans-serif; letter-spacing: .05em; text-transform: uppercase; cursor: pointer; }
-#authSubmit:hover, #logoutBtn:hover { background: var(--teal); }
+#authSubmit, #logoutBtn, #adminDashboardBtn { width: 100%; display: inline-flex; align-items: center; justify-content: center; padding: 13px 20px; border: 0; border-radius: 9px; background: var(--navy); color: #fff; font: 700 12px "Archivo", sans-serif; letter-spacing: .05em; text-transform: uppercase; cursor: pointer; }
+#authSubmit:hover, #logoutBtn:hover, #adminDashboardBtn:hover { background: var(--teal); color: #fff; }
 #authSwitch { margin-top: 20px; color: var(--muted); text-align: center; font-size: 13px; }
 #authSwitch a { color: var(--teal); font-weight: 700; }
 #authErrors { margin-bottom: 18px; padding: 12px 15px; border: 1px solid #f0c2bd; border-radius: 9px; background: #fff1ef; color: #8f2820; font-size: 13px; }
 #authErrors ul { margin: 0; padding-left: 18px; }
 #profileContainer p { margin: 0; padding: 13px 0; border-bottom: 1px solid var(--border); color: var(--muted); font-size: 14px; }
 #profileContainer p strong { color: var(--navy); }
-#logoutBtn { width: auto; margin-top: 24px; }
+.profile-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.profile-actions #logoutBtn, .profile-actions #adminDashboardBtn { width: auto; margin: 0; }
+#adminDashboardBtn { background: var(--teal); }
+#adminDashboardBtn:hover { background: var(--teal-dark); }
 .order-history { margin-top: 38px; padding-top: 30px; border-top: 1px solid var(--border); }
 .order-history h2 { margin: 0 0 18px; color: var(--navy); font: 800 22px "Archivo", sans-serif; }
 .order-list { display: grid; gap: 10px; }
@@ -29,6 +32,10 @@
 .account-empty p { border: 0 !important; }
 .account-empty a { color: var(--teal); font-weight: 700; }
 @media (max-width: 520px) { #authContainer, #profileContainer { margin: 30px 16px 0; padding: 28px 22px; } }
+@media (max-width: 520px) {
+    .profile-actions { flex-direction: column; }
+    .profile-actions #logoutBtn, .profile-actions #adminDashboardBtn { width: 100%; }
+}
 @media (max-width: 700px) {
     .order-row { grid-template-columns: 1fr 1fr; }
     .order-status { justify-self: start; }
